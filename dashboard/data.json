@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-29 23:17:10",
+  "last_updated": "2026-05-29 19:36:33",
   "players": [
     {
       "name": "Marvin",
@@ -10,7 +10,7 @@
           "trainer_id": 56246,
           "trainer_sid": 56852,
           "money": 3120,
-          "playtime": "00:17:38",
+          "playtime": "00:24:43",
           "game": "FRLG",
           "pokedex_seen": 0,
           "pokedex_caught": 0,
@@ -26,23 +26,23 @@
               "species_id": 158,
               "species": "Totodile",
               "nickname": "cocodrilo",
-              "level": 6,
+              "level": 8,
               "shiny": false,
               "gender": "M",
-              "friendship": 56,
+              "friendship": 68,
               "held_item": "Item 139",
-              "nature": "Mild",
+              "nature": "Rash",
               "ability": "Torrent",
-              "hp_current": 22,
-              "hp_max": 22,
+              "hp_current": 16,
+              "hp_max": 26,
               "status": 0,
               "stats": {
-                "hp": 22,
-                "attack": 13,
-                "defense": 11,
-                "sp_attack": 12,
+                "hp": 26,
+                "attack": 16,
+                "defense": 15,
+                "sp_attack": 14,
                 "sp_defense": 11,
-                "speed": 11
+                "speed": 13
               },
               "ivs": {
                 "hp": 8,
@@ -54,21 +54,64 @@
               },
               "evs": {
                 "hp": 0,
-                "attack": 0,
-                "defense": 0,
+                "attack": 4,
+                "defense": 1,
                 "sp_attack": 1,
                 "sp_defense": 0,
-                "speed": 0
+                "speed": 2
               },
               "moves": [
                 "Scratch",
                 "Leer",
-                "MiracleEye"
+                "MiracleEye",
+                "Rage"
+              ]
+            },
+            {
+              "species_id": 261,
+              "species": "Poochyena",
+              "nickname": "dogesh",
+              "level": 2,
+              "shiny": false,
+              "gender": "F",
+              "friendship": 50,
+              "held_item": "Item 0",
+              "nature": "Hardy",
+              "ability": "RunAway",
+              "hp_current": 3,
+              "hp_max": 13,
+              "status": 0,
+              "stats": {
+                "hp": 13,
+                "attack": 7,
+                "defense": 6,
+                "sp_attack": 6,
+                "sp_defense": 6,
+                "speed": 6
+              },
+              "ivs": {
+                "hp": 17,
+                "attack": 11,
+                "defense": 19,
+                "sp_attack": 1,
+                "sp_defense": 20,
+                "speed": 1
+              },
+              "evs": {
+                "hp": 0,
+                "attack": 0,
+                "defense": 0,
+                "sp_attack": 0,
+                "sp_defense": 0,
+                "speed": 0
+              },
+              "moves": [
+                "Tackle"
               ]
             }
           ],
           "game_name": "Radical Red",
-          "last_updated": "2026-05-29 23:16:27"
+          "last_updated": "2026-05-29 19:36:28"
         },
         {
           "trainer_name": "Gold",
@@ -368,313 +411,7 @@
             }
           ],
           "game_name": "Emerald",
-          "last_updated": "2026-05-29 23:16:29"
-        }
-      ]
-    },
-    {
-      "name": "as",
-      "games": [
-        {
-          "trainer_name": "TAYLOR",
-          "trainer_gender": "Male",
-          "trainer_id": 26016,
-          "trainer_sid": 36939,
-          "money": 352548,
-          "playtime": "68:33:13",
-          "game": "FR",
-          "pokedex_seen": 219,
-          "pokedex_caught": 169,
-          "pokedex_percent_seen": 56.7,
-          "pokedex_percent_caught": 43.8,
-          "badges_count": 8,
-          "obtained_badges": [
-            "Boulder",
-            "Cascade",
-            "Thunder",
-            "Rainbow",
-            "Soul",
-            "Marsh",
-            "Volcano",
-            "Earth"
-          ],
-          "map_bank": 0,
-          "map_number": 0,
-          "location": "Pallet Town (Interior)",
-          "party": [
-            {
-              "species_id": 6,
-              "species": "Charizard",
-              "nickname": "SMOLDER",
-              "level": 92,
-              "shiny": false,
-              "gender": "M",
-              "friendship": 249,
-              "held_item": "Item 189",
-              "nature": "Rash",
-              "ability": "Blaze",
-              "hp_current": 258,
-              "hp_max": 283,
-              "status": 0,
-              "stats": {
-                "hp": 283,
-                "attack": 202,
-                "defense": 185,
-                "sp_attack": 259,
-                "sp_defense": 148,
-                "speed": 240
-              },
-              "ivs": {
-                "hp": 25,
-                "attack": 28,
-                "defense": 13,
-                "sp_attack": 22,
-                "sp_defense": 0,
-                "speed": 9
-              },
-              "evs": {
-                "hp": 64,
-                "attack": 76,
-                "defense": 109,
-                "sp_attack": 51,
-                "sp_defense": 19,
-                "speed": 191
-              },
-              "moves": [
-                "WingAttack",
-                "MegaKick",
-                "FireBlast",
-                "Flamethrower"
-              ]
-            },
-            {
-              "species_id": 22,
-              "species": "Fearow",
-              "nickname": "MIDAS",
-              "level": 88,
-              "shiny": true,
-              "gender": "F",
-              "friendship": 255,
-              "held_item": "Item 181",
-              "nature": "Lonely",
-              "ability": "KeenEye",
-              "hp_current": 228,
-              "hp_max": 228,
-              "status": 0,
-              "stats": {
-                "hp": 228,
-                "attack": 226,
-                "defense": 128,
-                "sp_attack": 139,
-                "sp_defense": 134,
-                "speed": 212
-              },
-              "ivs": {
-                "hp": 14,
-                "attack": 7,
-                "defense": 4,
-                "sp_attack": 9,
-                "sp_defense": 14,
-                "speed": 13
-              },
-              "evs": {
-                "hp": 19,
-                "attack": 168,
-                "defense": 95,
-                "sp_attack": 90,
-                "sp_defense": 46,
-                "speed": 92
-              },
-              "moves": [
-                "DrillPeck",
-                "AerialAce",
-                "SecretPower",
-                "Fly"
-              ]
-            },
-            {
-              "species_id": 149,
-              "species": "Dragonite",
-              "nickname": "DRAGONITE",
-              "level": 100,
-              "shiny": false,
-              "gender": "F",
-              "friendship": 95,
-              "held_item": "Item 201",
-              "nature": "Quiet",
-              "ability": "InnerFocus",
-              "hp_current": 329,
-              "hp_max": 329,
-              "status": 0,
-              "stats": {
-                "hp": 329,
-                "attack": 349,
-                "defense": 230,
-                "sp_attack": 264,
-                "sp_defense": 236,
-                "speed": 212
-              },
-              "ivs": {
-                "hp": 15,
-                "attack": 24,
-                "defense": 30,
-                "sp_attack": 30,
-                "sp_defense": 31,
-                "speed": 29
-              },
-              "evs": {
-                "hp": 90,
-                "attack": 208,
-                "defense": 20,
-                "sp_attack": 20,
-                "sp_defense": 2,
-                "speed": 170
-              },
-              "moves": [
-                "WingAttack",
-                "Earthquake",
-                "Slam",
-                "Outrage"
-              ]
-            },
-            {
-              "species_id": 31,
-              "species": "Nidoqueen",
-              "nickname": "NIDOQUEEN",
-              "level": 31,
-              "shiny": false,
-              "gender": "F",
-              "friendship": 254,
-              "held_item": "Item 0",
-              "nature": "Quirky",
-              "ability": "PoisonPoint",
-              "hp_current": 101,
-              "hp_max": 101,
-              "status": 0,
-              "stats": {
-                "hp": 101,
-                "attack": 60,
-                "defense": 65,
-                "sp_attack": 53,
-                "sp_defense": 62,
-                "speed": 52
-              },
-              "ivs": {
-                "hp": 15,
-                "attack": 15,
-                "defense": 21,
-                "sp_attack": 7,
-                "sp_defense": 14,
-                "speed": 2
-              },
-              "evs": {
-                "hp": 0,
-                "attack": 0,
-                "defense": 0,
-                "sp_attack": 0,
-                "sp_defense": 0,
-                "speed": 0
-              },
-              "moves": [
-                "RockSmash",
-                "Strength",
-                "Bite",
-                "Cut"
-              ]
-            },
-            {
-              "species_id": 131,
-              "species": "Lapras",
-              "nickname": "LAPRAS",
-              "level": 25,
-              "shiny": false,
-              "gender": "M",
-              "friendship": 255,
-              "held_item": "Item 0",
-              "nature": "Lax",
-              "ability": "ShellArmor",
-              "hp_current": 106,
-              "hp_max": 106,
-              "status": 0,
-              "stats": {
-                "hp": 106,
-                "attack": 54,
-                "defense": 55,
-                "sp_attack": 52,
-                "sp_defense": 48,
-                "speed": 39
-              },
-              "ivs": {
-                "hp": 27,
-                "attack": 28,
-                "defense": 20,
-                "sp_attack": 21,
-                "sp_defense": 9,
-                "speed": 17
-              },
-              "evs": {
-                "hp": 0,
-                "attack": 0,
-                "defense": 0,
-                "sp_attack": 0,
-                "sp_defense": 0,
-                "speed": 0
-              },
-              "moves": [
-                "Surf",
-                "BodySlam",
-                "ConfuseRay",
-                "Waterfall"
-              ]
-            },
-            {
-              "species_id": 371,
-              "species": "Bagon",
-              "nickname": "BAGON",
-              "level": 30,
-              "shiny": false,
-              "gender": "F",
-              "friendship": 80,
-              "held_item": "Item 0",
-              "nature": "Hasty",
-              "ability": "RockHead",
-              "hp_current": 75,
-              "hp_max": 75,
-              "status": 0,
-              "stats": {
-                "hp": 75,
-                "attack": 51,
-                "defense": 43,
-                "sp_attack": 30,
-                "sp_defense": 24,
-                "speed": 47
-              },
-              "ivs": {
-                "hp": 29,
-                "attack": 5,
-                "defense": 24,
-                "sp_attack": 5,
-                "sp_defense": 4,
-                "speed": 29
-              },
-              "evs": {
-                "hp": 0,
-                "attack": 0,
-                "defense": 0,
-                "sp_attack": 0,
-                "sp_defense": 0,
-                "speed": 0
-              },
-              "moves": [
-                "Leer",
-                "Headbutt",
-                "FocusEnergy",
-                "Ember"
-              ]
-            }
-          ],
-          "game_name": "Fire red",
-          "last_updated": "2026-05-29 23:17:10"
+          "last_updated": "2026-05-29 19:36:33"
         }
       ]
     }
@@ -692,22 +429,12 @@
     },
     {
       "rank": 2,
-      "name": "as",
-      "game": "Fire red",
-      "trainer_name": "TAYLOR",
-      "badges": 8,
-      "pokedex_caught": 169,
-      "playtime": "68:33:13",
-      "location": "Pallet Town (Interior)"
-    },
-    {
-      "rank": 3,
       "name": "Marvin",
       "game": "Radical Red",
       "trainer_name": "marvin",
       "badges": 0,
       "pokedex_caught": 0,
-      "playtime": "00:17:38",
+      "playtime": "00:24:43",
       "location": "Pallet Town (Interior)"
     }
   ],
