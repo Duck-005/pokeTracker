@@ -3,7 +3,7 @@ name: Pokémon Progress Tracker Pipeline
 on:
   schedule:
     # Run every 10 minutes
-    - cron: '*/30 * * * *'
+    - cron: '*/10 * * * *'
   push:
     branches:
       - main
