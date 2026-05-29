@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "brrwUcu6hHQ=",
+  "success": true,
+  "projectFilePath": "/home/duck/bakchodi/pokeTracker/PKHeX.Core/PKHeX.Core.csproj",
+  "expectedPackageFiles": [
+    "/home/duck/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,11 @@
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.AssemblyInfoInputs.cache
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.AssemblyInfo.cs
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.csproj.CoreCompileInputs.cache
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/bin/Debug/net10.0/PKHeX.Core.deps.json
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/bin/Debug/net10.0/PKHeX.Core.dll
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/bin/Debug/net10.0/PKHeX.Core.pdb
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.dll
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/refint/PKHeX.Core.dll
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/PKHeX.Core.pdb
+/home/duck/bakchodi/pokeTracker/PKHeX.Core/obj/Debug/net10.0/ref/PKHeX.Core.dll

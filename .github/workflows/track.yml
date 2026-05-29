@@ -1,0 +1,82 @@
+name: Pokémon Progress Tracker Pipeline
+
+on:
+  schedule:
+    # Run every 10 minutes
+    - cron: '*/30 * * * *'
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Permissions required for committing changes and deploying to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  track-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history so we can read and write commits
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-type: '3.x'
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+
+      - name: Create Cache and Output Directories
+        run: |
+          mkdir -p cache
+          mkdir -p dashboard
+
+      - name: Run Savefile Tracker Orchestrator
+        run: |
+          # Compile the PKHeX.Core dependency and run the update orchestrator
+          python scripts/update.py
+
+      - name: Commit and Push Updated Data Database
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Stage change databases
+          git add dashboard/data.json cache/hashes.json
+          
+          # Only commit and push if data.json actually changed
+          if git diff --cached --quiet; then
+            echo "No changes in savefile data. Skipping commit."
+          else
+            git commit -m "chore: auto-update players save progress [skip ci]"
+            git push origin main
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dashboard'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

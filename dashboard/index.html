@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tags for SEO & browser integrations -->
+    <title>PokeTracker - Pokémon Savefile Progress Tracker</title>
+    <meta name="description" content="Automated, real-time progress tracker for Pokémon GBA saves and ROM hacks. Monitor party stats, badges, and pokedex progress live.">
+    <meta name="color-scheme" content="dark">
+    
+    <!-- Fonts: modern Outfitters and Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS stylesheet link -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Premium Header with glassmorphism and live updates indicator -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="pokeball-icon-animate"></span>
+                <div>
+                    <h1>PokéTracker</h1>
+                    <p class="subtitle">Live Friend Group GBA Save Progress Tracker</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-pill">
+                    <span class="pulse-green"></span>
+                    <span id="update-status">Last Updated: Loading...</span>
+                </div>
+                <div class="stat-pill active-players">
+                    <span id="player-count">0 Players Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid Dashboard Area -->
+    <main class="dashboard-grid">
+        <!-- Sidebar containing Leaderboard & Activity Feed -->
+        <aside class="sidebar-area">
+            <!-- Global Leaderboard -->
+            <section class="card leaderboard-card" id="leaderboard-section">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Global Leaderboard
+                </h2>
+                <div class="leaderboard-table-container">
+                    <table class="leaderboard-table" id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Trainer</th>
+                                <th>Badges</th>
+                                <th>Caught</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Populated dynamically -->
+                            <tr class="placeholder-row"><td colspan="5">Loading leaderboard data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Activity Feed -->
+            <section class="card activity-card" id="activity-section">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Live Activity Feed
+                </h2>
+                <div class="activity-timeline" id="activity-timeline">
+                    <!-- Populated dynamically -->
+                    <div class="placeholder-activity">No recent activities available.</div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Player Cards Grid -->
+        <section class="players-area">
+            <h2 class="section-title">Trainer Progress Cards</h2>
+            <div class="players-grid" id="players-grid">
+                <!-- Populated dynamically -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Scanning savefiles & rendering data...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Premium Footer -->
+    <footer class="main-footer">
+        <p>© 2026 PokéTracker Platform. Powered by PKHeX.Core & GitHub Actions.</p>
+        <p class="muted">Designed with high-density premium glassmorphism. Gen 3 GBA Savefile Analyzer.</p>
+    </footer>
+
+    <!-- App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

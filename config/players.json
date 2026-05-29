@@ -1,0 +1,14 @@
+{
+  "players": [
+    {
+      "name": "Ash",
+      "drive_url": "https://drive.google.com/file/d/1_PLACEHOLDER_DRIVE_ID_1/view?usp=sharing",
+      "game": "Radical Red"
+    },
+    {
+      "name": "May",
+      "drive_url": "https://drive.google.com/file/d/1_PLACEHOLDER_DRIVE_ID_2/view?usp=sharing",
+      "game": "Emerald"
+    }
+  ]
+}

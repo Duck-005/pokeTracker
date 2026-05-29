@@ -1,0 +1,459 @@
+{
+  "last_updated": "2026-05-29 20:41:09",
+  "players": [
+    {
+      "name": "Ash",
+      "game": "Radical Red",
+      "trainer_gender": "Male",
+      "trainer_id": 48291,
+      "trainer_sid": 10928,
+      "money": 73200,
+      "playtime": "24:15:32",
+      "location": "Saffron City",
+      "pokedex_seen": 254,
+      "pokedex_caught": 142,
+      "pokedex_percent_seen": 25.4,
+      "pokedex_percent_caught": 14.2,
+      "badges_count": 5,
+      "obtained_badges": [
+        "Boulder",
+        "Cascade",
+        "Thunder",
+        "Rainbow",
+        "Soul"
+      ],
+      "party": [
+        {
+          "species_id": 25,
+          "species": "Pikachu",
+          "nickname": "Buddy",
+          "level": 42,
+          "shiny": false,
+          "gender": "M",
+          "friendship": 255,
+          "held_item": "Light Ball",
+          "nature": "Jolly",
+          "ability": "Static",
+          "hp_current": 95,
+          "hp_max": 95,
+          "status": 0,
+          "stats": {
+            "hp": 95,
+            "attack": 85,
+            "defense": 60,
+            "sp_attack": 75,
+            "sp_defense": 70,
+            "speed": 110
+          },
+          "ivs": {
+            "hp": 31,
+            "attack": 28,
+            "defense": 25,
+            "sp_attack": 31,
+            "sp_defense": 30,
+            "speed": 31
+          },
+          "evs": {
+            "hp": 6,
+            "attack": 252,
+            "defense": 0,
+            "sp_attack": 0,
+            "sp_defense": 0,
+            "speed": 252
+          },
+          "moves": [
+            "Thunderbolt",
+            "Iron Tail",
+            "Quick Attack",
+            "Volt Tackle"
+          ]
+        },
+        {
+          "species_id": 6,
+          "species": "Charizard",
+          "nickname": "Blaze",
+          "level": 48,
+          "shiny": true,
+          "gender": "M",
+          "friendship": 180,
+          "held_item": "Charizardite Y",
+          "nature": "Timid",
+          "ability": "Blaze",
+          "hp_current": 142,
+          "hp_max": 142,
+          "status": 0,
+          "stats": {
+            "hp": 142,
+            "attack": 102,
+            "defense": 95,
+            "sp_attack": 140,
+            "sp_defense": 105,
+            "speed": 125
+          },
+          "ivs": {
+            "hp": 30,
+            "attack": 14,
+            "defense": 28,
+            "sp_attack": 31,
+            "sp_defense": 31,
+            "speed": 31
+          },
+          "evs": {
+            "hp": 0,
+            "attack": 0,
+            "defense": 4,
+            "sp_attack": 252,
+            "sp_defense": 0,
+            "speed": 252
+          },
+          "moves": [
+            "Flamethrower",
+            "Air Slash",
+            "Solar Beam",
+            "Dragon Pulse"
+          ]
+        },
+        {
+          "species_id": 130,
+          "species": "Gyarados",
+          "nickname": "",
+          "level": 41,
+          "shiny": false,
+          "gender": "F",
+          "friendship": 70,
+          "held_item": "None",
+          "nature": "Adamant",
+          "ability": "Intimidate",
+          "hp_current": 0,
+          "hp_max": 135,
+          "status": 0,
+          "stats": {
+            "hp": 135,
+            "attack": 120,
+            "defense": 85,
+            "sp_attack": 50,
+            "sp_defense": 90,
+            "speed": 82
+          },
+          "ivs": {
+            "hp": 25,
+            "attack": 31,
+            "defense": 22,
+            "sp_attack": 15,
+            "sp_defense": 24,
+            "speed": 28
+          },
+          "evs": {
+            "hp": 50,
+            "attack": 200,
+            "defense": 0,
+            "sp_attack": 0,
+            "sp_defense": 0,
+            "speed": 252
+          },
+          "moves": [
+            "Waterfall",
+            "Bite",
+            "Dragon Dance",
+            "Ice Fang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "May",
+      "game": "Emerald",
+      "trainer_gender": "Female",
+      "trainer_id": 10923,
+      "trainer_sid": 45391,
+      "money": 12040,
+      "playtime": "12:41:00",
+      "location": "Mauville City",
+      "pokedex_seen": 82,
+      "pokedex_caught": 45,
+      "pokedex_percent_seen": 21.3,
+      "pokedex_percent_caught": 11.5,
+      "badges_count": 3,
+      "obtained_badges": [
+        "Stone",
+        "Knuckle",
+        "Dynamo"
+      ],
+      "party": [
+        {
+          "species_id": 257,
+          "species": "Blaziken",
+          "nickname": "Torch",
+          "level": 36,
+          "shiny": false,
+          "gender": "M",
+          "friendship": 200,
+          "held_item": "Focus Band",
+          "nature": "Hasty",
+          "ability": "Blaze",
+          "hp_current": 108,
+          "hp_max": 112,
+          "status": 0,
+          "stats": {
+            "hp": 112,
+            "attack": 98,
+            "defense": 65,
+            "sp_attack": 90,
+            "sp_defense": 68,
+            "speed": 85
+          },
+          "ivs": {
+            "hp": 28,
+            "attack": 30,
+            "defense": 18,
+            "sp_attack": 25,
+            "sp_defense": 22,
+            "speed": 31
+          },
+          "evs": {
+            "hp": 10,
+            "attack": 150,
+            "defense": 0,
+            "sp_attack": 40,
+            "sp_defense": 0,
+            "speed": 100
+          },
+          "moves": [
+            "Blaze Kick",
+            "Double Kick",
+            "Bulk Up",
+            "Quick Attack"
+          ]
+        },
+        {
+          "species_id": 306,
+          "species": "Aggron",
+          "nickname": "",
+          "level": 42,
+          "shiny": false,
+          "gender": "F",
+          "friendship": 120,
+          "held_item": "Hard Stone",
+          "nature": "Impish",
+          "ability": "Sturdy",
+          "hp_current": 32,
+          "hp_max": 120,
+          "status": 0,
+          "stats": {
+            "hp": 120,
+            "attack": 105,
+            "defense": 160,
+            "sp_attack": 55,
+            "sp_defense": 62,
+            "speed": 50
+          },
+          "ivs": {
+            "hp": 20,
+            "attack": 25,
+            "defense": 31,
+            "sp_attack": 12,
+            "sp_defense": 18,
+            "speed": 15
+          },
+          "evs": {
+            "hp": 252,
+            "attack": 6,
+            "defense": 252,
+            "sp_attack": 0,
+            "sp_defense": 0,
+            "speed": 0
+          },
+          "moves": [
+            "Iron Head",
+            "Rock Slide",
+            "Earthquake",
+            "Protect"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Red",
+      "game": "FireRed",
+      "trainer_gender": "Male",
+      "trainer_id": 55011,
+      "trainer_sid": 1203,
+      "money": 152030,
+      "playtime": "41:09:12",
+      "location": "Lavender Town",
+      "pokedex_seen": 151,
+      "pokedex_caught": 150,
+      "pokedex_percent_seen": 100.0,
+      "pokedex_percent_caught": 99.3,
+      "badges_count": 7,
+      "obtained_badges": [
+        "Boulder",
+        "Cascade",
+        "Thunder",
+        "Rainbow",
+        "Soul",
+        "Marsh",
+        "Volcano"
+      ],
+      "party": [
+        {
+          "species_id": 3,
+          "species": "Venusaur",
+          "nickname": "Saur",
+          "level": 62,
+          "shiny": false,
+          "gender": "M",
+          "friendship": 240,
+          "held_item": "Leftovers",
+          "nature": "Calm",
+          "ability": "Overgrow",
+          "hp_current": 195,
+          "hp_max": 195,
+          "status": 0,
+          "stats": {
+            "hp": 195,
+            "attack": 110,
+            "defense": 125,
+            "sp_attack": 145,
+            "sp_defense": 150,
+            "speed": 115
+          },
+          "ivs": {
+            "hp": 31,
+            "attack": 15,
+            "defense": 28,
+            "sp_attack": 31,
+            "sp_defense": 31,
+            "speed": 29
+          },
+          "evs": {
+            "hp": 252,
+            "attack": 0,
+            "defense": 4,
+            "sp_attack": 0,
+            "sp_defense": 252,
+            "speed": 0
+          },
+          "moves": [
+            "Giga Drain",
+            "Leech Seed",
+            "Sleep Powder",
+            "Sludge Bomb"
+          ]
+        },
+        {
+          "species_id": 143,
+          "species": "Snorlax",
+          "nickname": "Lax",
+          "level": 58,
+          "shiny": false,
+          "gender": "M",
+          "friendship": 150,
+          "held_item": "Chesto Berry",
+          "nature": "Careful",
+          "ability": "Thick Fat",
+          "hp_current": 272,
+          "hp_max": 272,
+          "status": 0,
+          "stats": {
+            "hp": 272,
+            "attack": 145,
+            "defense": 95,
+            "sp_attack": 80,
+            "sp_defense": 150,
+            "speed": 55
+          },
+          "ivs": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 24,
+            "sp_attack": 10,
+            "sp_defense": 31,
+            "speed": 18
+          },
+          "evs": {
+            "hp": 144,
+            "attack": 112,
+            "defense": 0,
+            "sp_attack": 0,
+            "sp_defense": 252,
+            "speed": 0
+          },
+          "moves": [
+            "Body Slam",
+            "Curse",
+            "Rest",
+            "Crunch"
+          ]
+        }
+      ]
+    }
+  ],
+  "leaderboard": [
+    {
+      "rank": 1,
+      "name": "Red",
+      "game": "FireRed",
+      "badges": 7,
+      "pokedex_caught": 150,
+      "playtime": "41:09:12",
+      "location": "Lavender Town"
+    },
+    {
+      "rank": 2,
+      "name": "Ash",
+      "game": "Radical Red",
+      "badges": 5,
+      "pokedex_caught": 142,
+      "playtime": "24:15:32",
+      "location": "Saffron City"
+    },
+    {
+      "rank": 3,
+      "name": "May",
+      "game": "Emerald",
+      "badges": 3,
+      "pokedex_caught": 45,
+      "playtime": "12:41:00",
+      "location": "Mauville City"
+    }
+  ],
+  "activity_feed": [
+    {
+      "player": "Red",
+      "text": "Red entered Lavender Town.",
+      "type": "location",
+      "timestamp": "2026-05-29 20:41:09"
+    },
+    {
+      "player": "Ash",
+      "text": "Ash caught Gyarados Lv. 41!",
+      "type": "catch",
+      "timestamp": "2026-05-29 20:41:09"
+    },
+    {
+      "player": "May",
+      "text": "May earned the Dynamo Badge!",
+      "type": "badge",
+      "timestamp": "2026-05-29 20:41:09"
+    },
+    {
+      "player": "May",
+      "text": "May caught Aggron Lv. 42!",
+      "type": "catch",
+      "timestamp": "2026-05-29 20:41:09"
+    },
+    {
+      "player": "Ash",
+      "text": "Ash's Blaze reached Level 48!",
+      "type": "levelup",
+      "timestamp": "2026-05-29 20:41:09"
+    },
+    {
+      "player": "Red",
+      "text": "Red defeated the Cinnabar Gym Leader and earned the Volcano Badge!",
+      "type": "badge",
+      "timestamp": "2026-05-29 20:41:09"
+    }
+  ]
+}
