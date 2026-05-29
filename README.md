@@ -2,7 +2,7 @@
 
 A premium, automated, full-stack savefile tracking and leaderboard platform designed for friend groups playing GBA Pokémon games (Ruby, Sapphire, Emerald, FireRed, LeafGreen) and major ROM hacks (such as *Pokémon Radical Red*, *Pokémon Unbound*, etc.) simultaneously.
 
-It automatically downloads players' `.sav` files from public Google Drive sharing links, parses them with a fast C# engine powered by `PKHeX.Core`, processes state deltas in Python to compile an interactive timeline **Activity Feed**, and hosts a stunning obsidian-glassmorphic responsive dashboard on GitHub Pages.
+It automatically downloads players' `.sav` files from public Google Drive sharing links, parses them with a fast C# engine powered by `PKHeX.Core`, processes state deltas in Python to compile an interactive timeline **Activity Feed**, and hosts a stunning light-mode obsidian-glassmorphic responsive dashboard on GitHub Pages.
 
 ---
 
@@ -18,7 +18,7 @@ graph TD
     F -->|Compare with Prev State| G[Generate New Activities]
     G -->|Merge with History| H[Compile data.json]
     D -->|Use Cached Data| H
-    H -->|Fetch AJAX| I[Obsidian Glassmorphic Dashboard]
+    H -->|Fetch AJAX| I[Light-Mode Glassmorphic Dashboard]
     I -->|GitHub Pages| J[Friends Live Leaderboard]
 ```
 
@@ -28,14 +28,14 @@ graph TD
 
 - `parser/`: A C# console application linking directly to the local `PKHeX.Core` source project. It parses a `.sav` file and outputs normalized JSON.
 - `scripts/`:
-  - `update.py`: Main Python orchestrator executing savefile downloads, hashing checks, parser runs, and delta comparisons for Activity generation.
-  - `generate_mock_data.py`: Developer utility generating detailed mock data for visual testing.
+  - `update.py`: Main Python orchestrator executing savefile downloads, hashing checks, parser runs, and delta comparisons for Activity generation. Supports multi-game configurations!
+  - `generate_mock_data.py`: Developer utility generating detailed multi-game mock data for visual testing.
 - `config/`:
   - `players.json`: The player configuration database mapping custom names to Google Drive links and versions.
 - `dashboard/`: The static single-page dashboard:
   - `index.html`: Layout containing Leaderboard, Timeline feed, and Player grid.
-  - `styles.css`: CSS Design System (dark-mode, glassmorphism, responsive queries, official type color pills, glowing badges).
-  - `app.js`: Core controller handling data AJAX requests, animated Showdown GIF bindings, Pokéball fallbacks, and circular charts.
+  - `styles.css`: CSS Design System (light-mode, glassmorphism, responsive grids, official type color pills, glowing badges).
+  - `app.js`: Core controller handling data AJAX requests, animated Showdown GIF bindings, Pokéball fallbacks, circular charts, and active-game sub-pill navigations.
 - `.github/workflows/`:
   - `track.yml`: Automated GitHub Action running every 10 minutes on cron, updating player states, backing up progress history to Git, and deploying to GitHub Pages.
 
@@ -49,25 +49,45 @@ graph TD
 
 ---
 
-### How to Add New Players
+### How to Add Players & Configure Multiple Games
 
-To add new players or customize your friend group:
+Our platform natively supports tracking **multiple games per player** concurrently. Each game run is parsed and displayed separately, and runs are ranked side-by-side on the global leaderboard!
 
-1. Open [config/players.json](file:///home/duck/bakchodi/pokeTracker/config/players.json) in your IDE.
-2. Add a new player block mapping their customizable name, public Google Drive save link, and game version.
-   
+To configure players and their active games, edit [config/players.json](file:///home/duck/bakchodi/pokeTracker/config/players.json):
+
+#### Multi-Game Configuration Format (Recommended)
+You can configure a list of distinct game runs under the `"games"` array of each player:
+
 ```json
 {
   "players": [
     {
-      "name": "Red",
-      "drive_url": "https://drive.google.com/file/d/YOUR_PUBLIC_GOOGLE_DRIVE_FILE_ID/view?usp=sharing",
-      "game": "FireRed"
-    },
+      "name": "Marvin",
+      "games": [
+        {
+          "game_name": "Radical Red",
+          "drive_url": "https://drive.google.com/file/d/YOUR_DRIVE_ID_1/view?usp=sharing"
+        },
+        {
+          "game_name": "Emerald",
+          "drive_url": "https://drive.google.com/file/d/YOUR_DRIVE_ID_2/view?usp=sharing"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Single-Game Configuration Format (Backwards Compatible)
+For quick single-game setups, you can still use the traditional flat format:
+
+```json
+{
+  "players": [
     {
-      "name": "Ash",
-      "drive_url": "https://drive.google.com/file/d/YOUR_PUBLIC_GOOGLE_DRIVE_FILE_ID_2/view?usp=sharing",
-      "game": "Radical Red"
+      "name": "Marvin",
+      "game": "Radical Red",
+      "drive_url": "https://drive.google.com/file/d/YOUR_DRIVE_ID_1/view?usp=sharing"
     }
   ]
 }
@@ -107,7 +127,10 @@ Now, open your browser and navigate to:
 
 ## 🎨 Premium UI Features
 
-- **Live Activity Feed Timeline**: Detects and displays live achievements in real time (e.g. *"Ash caught Pikachu Lv. 42"*, *"May earned the Stone Badge"*).
+- **Sub-Game Toggling**: If a player tracks multiple games, a navigation bar of selector pills appears at the top of their player card. Toggle between games to view their distinct parties, badges, and stats!
+- **Persistent State Retention**: Remembers which tab (Party, Badges, Stats) and active sub-game you selected for each player card, retaining these selections seamlessly across live updates!
+- **Run-Based Leaderboard**: Global Leaderboards dynamically rank individual runs (Player + Game) side-by-side.
+- **Live Activity Feed Timeline**: Detects and displays live achievements in real time (e.g. *"Marvin caught Totodile Lv. 6 in Radical Red!"*).
 - **Showdown Animated GIFs**: Automatically resolves Pokémon names into animated Battle Sprites (`play.pokemonshowdown.com`), breathing life into player party tabs.
 - **Three-Tier Sprite Fallback**: If an animated Showdown GIF fails, it gracefully falls back to the PokeAPI high-resolution static artwork, and if that fails, a Pokéball item icon, ensuring zero broken images.
 - **Gym Badge Tracker**: Displaying obtained gym badges in full color, while locked ones remain in high-density greyscale.

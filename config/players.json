@@ -1,14 +1,21 @@
 {
   "players": [
     {
-      "name": "Ash",
-      "drive_url": "https://drive.google.com/file/d/1_PLACEHOLDER_DRIVE_ID_1/view?usp=sharing",
-      "game": "Radical Red"
-    },
-    {
-      "name": "May",
-      "drive_url": "https://drive.google.com/file/d/1_PLACEHOLDER_DRIVE_ID_2/view?usp=sharing",
-      "game": "Emerald"
+      "name": "Marvin",
+      "games": [
+        {
+          "game_name": "Radical Red",
+          "drive_url": "https://drive.google.com/file/d/1YCxln67xOevR_30Tx0b4CFNT0Htiuf_v/view?usp=sharing"
+        },
+        {
+          "game_name": "Emerald",
+          "drive_url": "https://drive.google.com/file/d/1z3069-0yey_HalI0LuSNzWKLltwAUhFg/view?usp=sharing"
+        },
+        {
+          "game_name": "Fire red",
+          "drive_url": "https://drive.google.com/file/d/19Q1j_-1SZr5R1gXZ8lXY78kN2S7Tt_xD/view?usp=sharing"
+        }
+      ]
     }
   ]
 }

@@ -23,8 +23,9 @@ const BADGE_SVGS = {
     "Rain": `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2c0 0 5 4.5 5 8a5 5 0 0 1-10 0c0-3.5 5-8 5-8z M12 8c0 0 3 2.7 3 4.8a3 3 0 0 1-6 0c0-2.1 3-4.8 3-4.8z" fill="#0284c7" stroke="#0369a1"/></svg>`,
 };
 
-// Global dashboard database
+// Global dashboard database state
 let trackerData = null;
+let activeGames = {}; // Map: player_name -> active_game_index
 
 // Normalize species name to match Showdown's animated GIF filenames
 function getShowdownName(species) {
@@ -171,32 +172,61 @@ function renderPlayerCards() {
         const name = player.name;
         const currentTab = activeTabs[name] || "party"; // Default to party tab
         
+        // Get active game selection index
+        const activeGameIdx = activeGames[name] !== undefined ? activeGames[name] : 0;
+        const games = player.games || [];
+        
+        // Ensure active game index is valid
+        const gameIdx = (activeGameIdx >= 0 && activeGameIdx < games.length) ? activeGameIdx : 0;
+        const activeGame = games[gameIdx];
+
+        if (!activeGame) {
+            return; // Skip if no active game parses
+        }
+
         const card = document.createElement("article");
         card.className = "player-card";
         card.setAttribute("data-player", name);
         
-        // Setup card HTML structure
+        // Setup card header, including Game Selector Pill navigation
+        let gameSelectorHTML = "";
+        if (games.length > 1) {
+            gameSelectorHTML = `
+                <div class="game-selector-bar" style="display: flex; gap: 0.5rem; padding: 0.5rem 1.5rem; background: rgba(0, 0, 0, 0.05); border-bottom: 1px solid var(--border-glass); align-items: center; overflow-x: auto;">
+                    <span class="muted" style="font-size: 0.75rem; font-weight:600; text-transform: uppercase;">Syncs:</span>
+                    ${games.map((g, idx) => `
+                        <button class="game-pill-btn ${idx === gameIdx ? 'active' : ''}" data-game-idx="${idx}" style="background: ${idx === gameIdx ? 'var(--color-primary)' : 'rgba(15,23,42,0.05)'}; color: ${idx === gameIdx ? 'white' : 'var(--text-muted)'}; border: 1px solid ${idx === gameIdx ? 'var(--color-primary)' : 'var(--border-glass)'}; border-radius: 50px; padding: 0.2rem 0.75rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition-fast); white-space: nowrap;">
+                            ${g.game_name}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
         card.innerHTML = `
             <div class="player-card-header">
                 <div class="player-card-title">
                     <h3>${name}</h3>
-                    <span class="game-badge game-${player.game.toLowerCase().replace(/[^a-z]/g, '')}">${player.game}</span>
+                    <span class="game-badge game-${activeGame.game_name.toLowerCase().replace(/[^a-z]/g, '')}">${activeGame.game_name}</span>
                 </div>
                 <div class="header-quick-info">
                     <div class="quick-info-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <span>${player.badges_count} / 8 Badges</span>
+                        <span>${activeGame.badges_count} / 8 Badges</span>
                     </div>
                     <div class="quick-info-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <span>${player.playtime}</span>
+                        <span>${activeGame.playtime}</span>
                     </div>
                     <div class="quick-info-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <span>${player.location}</span>
+                        <span>${activeGame.location}</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Game Selector pills for multi-game syncs -->
+            ${gameSelectorHTML}
 
             <!-- Tab Buttons -->
             <nav class="player-card-tabs">
@@ -219,7 +249,7 @@ function renderPlayerCards() {
                 <!-- Panel 1: Party -->
                 <div class="tab-panel ${currentTab === 'party' ? 'active' : ''}" data-panel="party">
                     <div class="party-grid">
-                        ${renderPartyHTML(player.party)}
+                        ${renderPartyHTML(activeGame.party)}
                     </div>
                 </div>
 
@@ -230,7 +260,7 @@ function renderPlayerCards() {
                         <div class="badge-tracker-container">
                             <h4>Gym Badges Obtained</h4>
                             <div class="badges-flex">
-                                ${renderBadgesHTML(player)}
+                                ${renderBadgesHTML(activeGame)}
                             </div>
                         </div>
 
@@ -238,18 +268,18 @@ function renderPlayerCards() {
                         <div class="pokedex-completion-panel">
                             <div class="pokedex-header-data">
                                 <h4>Pokédex Progression</h4>
-                                <span class="dex-percentage-glowing">${player.pokedex_percent_caught}%</span>
+                                <span class="dex-percentage-glowing">${activeGame.pokedex_percent_caught}%</span>
                             </div>
                             <div class="hp-bar-outer" style="height: 10px; margin: 0.5rem 0;">
-                                <div class="hp-bar-inner" style="width: ${player.pokedex_percent_caught}%;"></div>
+                                <div class="hp-bar-inner" style="width: ${activeGame.pokedex_percent_caught}%;"></div>
                             </div>
                             <div class="dex-stats-block">
                                 <div class="dex-stat-box">
-                                    <span class="dex-stat-num">${player.pokedex_caught}</span>
+                                    <span class="dex-stat-num">${activeGame.pokedex_caught}</span>
                                     <span class="dex-stat-lbl">Caught</span>
                                 </div>
                                 <div class="dex-stat-box">
-                                    <span class="dex-stat-num">${player.pokedex_seen}</span>
+                                    <span class="dex-stat-num">${activeGame.pokedex_seen}</span>
                                     <span class="dex-stat-lbl">Seen</span>
                                 </div>
                             </div>
@@ -265,7 +295,7 @@ function renderPlayerCards() {
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                             </div>
                             <div class="stats-card-data">
-                                <span class="stats-card-val">${player.money.toLocaleString()} ¥</span>
+                                <span class="stats-card-val">${activeGame.money.toLocaleString()} ¥</span>
                                 <span class="stats-card-lbl">Current Money</span>
                             </div>
                         </div>
@@ -274,7 +304,7 @@ function renderPlayerCards() {
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                             </div>
                             <div class="stats-card-data">
-                                <span class="stats-card-val">${player.trainer_id}</span>
+                                <span class="stats-card-val">${activeGame.trainer_id}</span>
                                 <span class="stats-card-lbl">Trainer ID</span>
                             </div>
                         </div>
@@ -283,7 +313,7 @@ function renderPlayerCards() {
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             </div>
                             <div class="stats-card-data">
-                                <span class="stats-card-val">${player.trainer_sid}</span>
+                                <span class="stats-card-val">${activeGame.trainer_sid}</span>
                                 <span class="stats-card-lbl">Secret ID</span>
                             </div>
                         </div>
@@ -292,7 +322,7 @@ function renderPlayerCards() {
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
                             </div>
                             <div class="stats-card-data">
-                                <span class="stats-card-val">${player.trainer_gender}</span>
+                                <span class="stats-card-val">${activeGame.trainer_gender}</span>
                                 <span class="stats-card-lbl">Trainer Gender</span>
                             </div>
                         </div>
@@ -306,11 +336,9 @@ function renderPlayerCards() {
             btn.addEventListener("click", () => {
                 const targetTab = btn.getAttribute("data-tab");
                 
-                // Toggle active buttons
                 card.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
                 btn.classList.add("active");
                 
-                // Toggle active panels
                 card.querySelectorAll(".tab-panel").forEach(panel => {
                     if (panel.getAttribute("data-panel") === targetTab) {
                         panel.classList.add("active");
@@ -318,6 +346,17 @@ function renderPlayerCards() {
                         panel.classList.remove("active");
                     }
                 });
+            });
+        });
+
+        // Attach Game Toggling event listeners for multi-game select
+        card.querySelectorAll(".game-pill-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const selectedGameIdx = parseInt(btn.getAttribute("data-game-idx"), 10);
+                activeGames[name] = selectedGameIdx;
+                
+                // Re-render only player cards grid to reflect changes immediately
+                renderPlayerCards();
             });
         });
         
@@ -337,11 +376,9 @@ function renderPartyHTML(party) {
         const level = pk.level || 1;
         const shiny = pk.shiny || false;
         
-        // Animated Showdown GIF URL
         const sdName = getShowdownName(species);
         const spriteUrl = `https://play.pokemonshowdown.com/sprites/ani${shiny ? '-shiny' : ''}/${sdName}.gif`;
         
-        // Health calculations
         const maxHP = pk.hp_max || 100;
         const currHP = pk.hp_current === undefined ? maxHP : pk.hp_current;
         const hpPercent = Math.min(100, Math.max(0, Math.round((currHP / maxHP) * 100)));
@@ -351,16 +388,7 @@ function renderPartyHTML(party) {
         else if (hpPercent <= 20) hpClass = "hp-crit";
         else if (hpPercent <= 50) hpClass = "hp-warn";
 
-        // Types formatting
-        const typesHTML = `<span class="type-badge type-${sdName}">Gen 3</span>`; // PokeAPI type bindings can resolve dynamically
-        
-        // Friendship level
         const friendship = pk.friendship || 0;
-        
-        // Status calculations
-        let statusText = "OK";
-        if (currHP === 0) statusText = "FNT";
-        else if (pk.status > 0) statusText = "STAT"; // Can bind specific statuses if desired
 
         return `
             <div class="pokemon-slot ${currHP === 0 ? 'fainted-slot' : ''}">
@@ -412,7 +440,16 @@ function renderPartyHTML(party) {
 
 // Render Badge progress SVG HTML
 function renderBadgesHTML(player) {
-    const isFRLG = player.game.includes("FireRed") || player.game.includes("LeafGreen") || player.game.includes("FR") || player.game.includes("LG");
+    const nameLower = (player.game_name || "").toLowerCase();
+    const isFRLG = player.game === "FRLG" || 
+                   player.game === "FR" || 
+                   player.game === "LG" || 
+                   nameLower.includes("firered") || 
+                   nameLower.includes("leafgreen") || 
+                   nameLower.includes("fr") || 
+                   nameLower.includes("lg") ||
+                   nameLower.includes("red") ||
+                   nameLower.includes("unbound");
     let badges;
     
     if (isFRLG) {
@@ -438,9 +475,6 @@ function renderBadgesHTML(player) {
 
 // Run app
 document.addEventListener("DOMContentLoaded", () => {
-    // Initial fetch
     fetchTrackerData();
-    
-    // Live updater: poll for changes every 60 seconds
     setInterval(fetchTrackerData, 60000);
 });

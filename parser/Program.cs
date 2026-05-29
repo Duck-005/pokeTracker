@@ -80,48 +80,36 @@ namespace SaveParser
             // 2. Pokedex Progress
             dict["pokedex_seen"] = sav.SeenCount;
             dict["pokedex_caught"] = sav.CaughtCount;
-            dict["pokedex_percent_seen"] = Math.Round((double)sav.PercentSeen, 2);
-            dict["pokedex_percent_caught"] = Math.Round((double)sav.PercentCaught, 2);
+            dict["pokedex_percent_seen"] = Math.Round((double)sav.PercentSeen * 100, 1);
+            dict["pokedex_percent_caught"] = Math.Round((double)sav.PercentCaught * 100, 1);
 
             // 3. Badges Extraction
-            // Gen 3 FRLG vs RSE badge flag offsets
             bool isFRLG = sav.Version == GameVersion.FR || sav.Version == GameVersion.LG || gameVersion.Contains("FR") || gameVersion.Contains("LG");
             string[] badgeNames;
-            int flagStart;
 
             if (isFRLG)
             {
                 badgeNames = new string[] { "Boulder", "Cascade", "Thunder", "Rainbow", "Soul", "Marsh", "Volcano", "Earth" };
-                flagStart = 0x820; // 2080
             }
             else
             {
                 badgeNames = new string[] { "Stone", "Knuckle", "Dynamo", "Heat", "Balance", "Feather", "Mind", "Rain" };
-                flagStart = 0x807; // 2055
             }
 
             var obtainedBadges = new List<string>();
             int badgeCount = 0;
 
-            for (int i = 0; i < 8; i++)
+            if (sav is SAV3 sav3)
             {
-                int flagId = flagStart + i;
-                bool hasBadge = false;
-                try
+                int badgesMask = sav3.Badges;
+                for (int i = 0; i < 8; i++)
                 {
-                    var getFlagMethod = sav.GetType().GetMethod("GetFlag", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (getFlagMethod != null)
+                    bool hasBadge = (badgesMask & (1 << i)) != 0;
+                    if (hasBadge)
                     {
-                        var res = getFlagMethod.Invoke(sav, new object[] { (ushort)flagId });
-                        if (res is bool b) hasBadge = b;
+                        obtainedBadges.Add(badgeNames[i]);
+                        badgeCount++;
                     }
-                }
-                catch {}
-
-                if (hasBadge)
-                {
-                    obtainedBadges.Add(badgeNames[i]);
-                    badgeCount++;
                 }
             }
 
@@ -222,7 +210,6 @@ namespace SaveParser
         {
             try
             {
-                // In PKHeX.Core, SpeciesName.GetSpeciesName(speciesId, 2) gets English name
                 return SpeciesName.GetSpeciesName(speciesId, 2);
             }
             catch

@@ -1,0 +1,300 @@
+{
+  "trainer_name": "Gold",
+  "trainer_gender": "Male",
+  "trainer_id": 1192,
+  "trainer_sid": 49287,
+  "money": 476212,
+  "playtime": "165:45:41",
+  "game": "E",
+  "pokedex_seen": 384,
+  "pokedex_caught": 384,
+  "pokedex_percent_seen": 99.5,
+  "pokedex_percent_caught": 99.5,
+  "badges_count": 8,
+  "obtained_badges": [
+    "Stone",
+    "Knuckle",
+    "Dynamo",
+    "Heat",
+    "Balance",
+    "Feather",
+    "Mind",
+    "Rain"
+  ],
+  "map_bank": 0,
+  "map_number": 0,
+  "location": "Littleroot Town",
+  "party": [
+    {
+      "species_id": 373,
+      "species": "Salamence",
+      "nickname": "SALAZAR",
+      "level": 100,
+      "shiny": false,
+      "gender": "M",
+      "friendship": 255,
+      "held_item": "Item 0",
+      "nature": "Careful",
+      "ability": "Intimidate",
+      "hp_current": 317,
+      "hp_max": 317,
+      "status": 0,
+      "stats": {
+        "hp": 317,
+        "attack": 347,
+        "defense": 181,
+        "sp_attack": 262,
+        "sp_defense": 191,
+        "speed": 220
+      },
+      "ivs": {
+        "hp": 17,
+        "attack": 9,
+        "defense": 16,
+        "sp_attack": 4,
+        "sp_defense": 9,
+        "speed": 15
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 255,
+        "defense": 0,
+        "sp_attack": 255,
+        "sp_defense": 0,
+        "speed": 0
+      },
+      "moves": [
+        "Flamethrower",
+        "Crunch",
+        "DragonClaw",
+        "Headbutt"
+      ]
+    },
+    {
+      "species_id": 257,
+      "species": "Blaziken",
+      "nickname": "BLAZE",
+      "level": 100,
+      "shiny": false,
+      "gender": "M",
+      "friendship": 255,
+      "held_item": "Item 189",
+      "nature": "Gentle",
+      "ability": "Blaze",
+      "hp_current": 305,
+      "hp_max": 305,
+      "status": 0,
+      "stats": {
+        "hp": 305,
+        "attack": 290,
+        "defense": 153,
+        "sp_attack": 247,
+        "sp_defense": 200,
+        "speed": 194
+      },
+      "ivs": {
+        "hp": 12,
+        "attack": 25,
+        "defense": 6,
+        "sp_attack": 4,
+        "sp_defense": 23,
+        "speed": 0
+      },
+      "evs": {
+        "hp": 95,
+        "attack": 80,
+        "defense": 82,
+        "sp_attack": 75,
+        "sp_defense": 59,
+        "speed": 119
+      },
+      "moves": [
+        "Slash",
+        "BlazeKick",
+        "FirePunch",
+        "SkyUppercut"
+      ]
+    },
+    {
+      "species_id": 357,
+      "species": "Tropius",
+      "nickname": "TROPIUS",
+      "level": 30,
+      "shiny": false,
+      "gender": "M",
+      "friendship": 255,
+      "held_item": "Item 0",
+      "nature": "Adamant",
+      "ability": "Chlorophyll",
+      "hp_current": 103,
+      "hp_max": 103,
+      "status": 0,
+      "stats": {
+        "hp": 103,
+        "attack": 53,
+        "defense": 57,
+        "sp_attack": 52,
+        "sp_defense": 60,
+        "speed": 36
+      },
+      "ivs": {
+        "hp": 12,
+        "attack": 8,
+        "defense": 10,
+        "sp_attack": 30,
+        "sp_defense": 10,
+        "speed": 0
+      },
+      "evs": {
+        "hp": 9,
+        "attack": 17,
+        "defense": 0,
+        "sp_attack": 14,
+        "sp_defense": 3,
+        "speed": 14
+      },
+      "moves": [
+        "RockSmash",
+        "Fly",
+        "Flash",
+        "Cut"
+      ]
+    },
+    {
+      "species_id": 272,
+      "species": "Ludicolo",
+      "nickname": "LOTUS",
+      "level": 37,
+      "shiny": false,
+      "gender": "F",
+      "friendship": 255,
+      "held_item": "Item 0",
+      "nature": "Calm",
+      "ability": "SwiftSwim",
+      "hp_current": 115,
+      "hp_max": 115,
+      "status": 0,
+      "stats": {
+        "hp": 115,
+        "attack": 58,
+        "defense": 66,
+        "sp_attack": 73,
+        "sp_defense": 92,
+        "speed": 62
+      },
+      "ivs": {
+        "hp": 19,
+        "attack": 16,
+        "defense": 20,
+        "sp_attack": 1,
+        "sp_defense": 11,
+        "speed": 12
+      },
+      "evs": {
+        "hp": 20,
+        "attack": 34,
+        "defense": 20,
+        "sp_attack": 18,
+        "sp_defense": 18,
+        "speed": 19
+      },
+      "moves": [
+        "Surf",
+        "Strength",
+        "Dive",
+        "Waterfall"
+      ]
+    },
+    {
+      "species_id": 375,
+      "species": "Metang",
+      "nickname": "MAGNUS",
+      "level": 22,
+      "shiny": false,
+      "gender": "U",
+      "friendship": 255,
+      "held_item": "Item 0",
+      "nature": "Quiet",
+      "ability": "ClearBody",
+      "hp_current": 59,
+      "hp_max": 59,
+      "status": 0,
+      "stats": {
+        "hp": 59,
+        "attack": 56,
+        "defense": 58,
+        "sp_attack": 38,
+        "sp_defense": 45,
+        "speed": 25
+      },
+      "ivs": {
+        "hp": 7,
+        "attack": 24,
+        "defense": 19,
+        "sp_attack": 29,
+        "sp_defense": 23,
+        "speed": 9
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 248,
+        "defense": 100,
+        "sp_attack": 0,
+        "sp_defense": 0,
+        "speed": 0
+      },
+      "moves": [
+        "TakeDown",
+        "Confusion",
+        "MetalClaw"
+      ]
+    },
+    {
+      "species_id": 181,
+      "species": "Ampharos",
+      "nickname": "AMPHAROS",
+      "level": 100,
+      "shiny": false,
+      "gender": "M",
+      "friendship": 255,
+      "held_item": "Item 0",
+      "nature": "Naughty",
+      "ability": "Static",
+      "hp_current": 303,
+      "hp_max": 303,
+      "status": 0,
+      "stats": {
+        "hp": 303,
+        "attack": 190,
+        "defense": 170,
+        "sp_attack": 267,
+        "sp_defense": 170,
+        "speed": 151
+      },
+      "ivs": {
+        "hp": 2,
+        "attack": 5,
+        "defense": 5,
+        "sp_attack": 27,
+        "sp_defense": 1,
+        "speed": 28
+      },
+      "evs": {
+        "hp": 44,
+        "attack": 52,
+        "defense": 40,
+        "sp_attack": 22,
+        "sp_defense": 14,
+        "speed": 35
+      },
+      "moves": [
+        "ShockWave",
+        "BrickBreak",
+        "Thunder",
+        "Thunderbolt"
+      ]
+    }
+  ],
+  "game_name": "Emerald",
+  "last_updated": "2026-05-29 23:02:58"
+}

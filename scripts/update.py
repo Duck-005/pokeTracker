@@ -34,17 +34,13 @@ def download_from_drive(file_id, output_path):
     url = f"https://docs.google.com/uc?export=download&id={file_id}"
     print(f"Downloading file ID: {file_id} to {output_path}...")
     try:
-        # Standard urllib download
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req) as response, open(output_path, 'wb') as out_file:
-            # Check if we got a redirect/confirmation token for large files (rare for 128KB GBA saves, but safe)
             content = response.read()
-            # If the response contains a virus warning / confirmation page
             if b"confirm=" in content and b"Google Drive" in content:
-                # Extract confirmation token
                 html_str = content.decode('utf-8', errors='ignore')
                 token_match = re.search(r'confirm=([a-zA-Z0-9_-]+)', html_str)
                 if token_match:
@@ -68,7 +64,6 @@ def get_sha256(filepath):
     return h.hexdigest()
 
 def run_parser(sav_path, output_json_path):
-    # Run the C# parser compiled console app
     cmd = ["dotnet", "run", "--project", PARSER_DIR, "--", sav_path, output_json_path]
     print(f"Executing parser command: {' '.join(cmd)}")
     try:
@@ -92,7 +87,7 @@ def parse_playtime_to_seconds(playtime_str):
         pass
     return 0
 
-def generate_activities(player_name, old_data, new_data):
+def generate_activities(player_name, game_name, old_data, new_data):
     activities = []
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -103,7 +98,7 @@ def generate_activities(player_name, old_data, new_data):
     for badge in added_badges:
         activities.append({
             "player": player_name,
-            "text": f"{player_name} earned the {badge} Badge!",
+            "text": f"{player_name} earned the {badge} Badge in {game_name}!",
             "type": "badge",
             "timestamp": timestamp
         })
@@ -114,7 +109,7 @@ def generate_activities(player_name, old_data, new_data):
     if old_loc and new_loc and old_loc != new_loc:
         activities.append({
             "player": player_name,
-            "text": f"{player_name} entered {new_loc}.",
+            "text": f"{player_name} entered {new_loc} in {game_name}.",
             "type": "location",
             "timestamp": timestamp
         })
@@ -130,19 +125,17 @@ def generate_activities(player_name, old_data, new_data):
         if key in old_party:
             old_pk = old_party[key]
             old_level = old_pk.get("level", 1)
-            # Level Up!
             if level > old_level:
                 activities.append({
                     "player": player_name,
-                    "text": f"{player_name}'s {new_pk.get('nickname') or species_name} leveled up to Lv. {level}!",
+                    "text": f"{player_name}'s {new_pk.get('nickname') or species_name} leveled up to Lv. {level} in {game_name}!",
                     "type": "levelup",
                     "timestamp": timestamp
                 })
         else:
-            # Catches!
             activities.append({
                 "player": player_name,
-                "text": f"{player_name} caught {species_name} Lv. {level}!",
+                "text": f"{player_name} caught {species_name} Lv. {level} in {game_name}!",
                 "type": "catch",
                 "timestamp": timestamp
             })
@@ -151,14 +144,13 @@ def generate_activities(player_name, old_data, new_data):
     old_badges_count = old_data.get("badges_count", 0)
     new_badges_count = new_data.get("badges_count", 0)
     
-    # Indigo Plateau / Ever Grande City champion triggers
     is_championship_loc = "Indigo Plateau" in new_loc or "Ever Grande" in new_loc or "Hall of Fame" in new_loc
     was_championship_loc = "Indigo Plateau" in old_loc or "Ever Grande" in old_loc or "Hall of Fame" in old_loc
     
     if is_championship_loc and not was_championship_loc and new_badges_count == 8:
         activities.append({
             "player": player_name,
-            "text": f"{player_name} defeated the Elite Four and became the Champion!",
+            "text": f"{player_name} defeated the Elite Four and became the Champion in {game_name}!",
             "type": "champion",
             "timestamp": timestamp
         })
@@ -168,7 +160,6 @@ def generate_activities(player_name, old_data, new_data):
 def main():
     ensure_dirs()
     
-    # 1. Load Player Config
     if not os.path.exists(CONFIG_PATH):
         print(f"Error: Config file not found at {CONFIG_PATH}")
         return
@@ -181,7 +172,7 @@ def main():
         print("No players configured.")
         return
 
-    # Load existing dashboard data to preserve history / activities
+    # Load existing dashboard data to preserve timeline history
     old_data_json = {}
     if os.path.exists(DATA_JSON_PATH):
         try:
@@ -192,8 +183,9 @@ def main():
 
     activity_feed = old_data_json.get("activity_feed", [])
     
-    # Map of old player data parsed from previous data.json
-    old_players_data = {p.get("name"): p for p in old_data_json.get("players", [])}
+    # Filter out activities belonging to players not currently configured
+    current_player_names = {p.get("name") for p in players if p.get("name")}
+    activity_feed = [act for act in activity_feed if act.get("player") in current_player_names]
     
     # Hash database
     hash_db_path = os.path.join(CACHE_DIR, "hashes.json")
@@ -209,124 +201,159 @@ def main():
     
     for player in players:
         name = player.get("name")
-        drive_url = player.get("drive_url")
-        configured_game = player.get("game", "Unknown")
+        games_config = player.get("games")
+        
+        # Backward compatibility check for single-game players
+        if not games_config:
+            drive_url = player.get("drive_url")
+            game_name = player.get("game", "Unknown")
+            if drive_url:
+                games_config = [{
+                    "game_name": game_name,
+                    "drive_url": drive_url
+                }]
+            else:
+                games_config = []
 
-        if not name or not drive_url:
-            print("Skipping invalid player config.")
+        if not name or not games_config:
+            print(f"Skipping invalid player config: {name}")
             continue
 
-        print(f"\n--- Processing Player: {name} ---")
-        drive_id = extract_drive_id(drive_url)
-        if not drive_id:
-            # Check if drive_url is already a placeholder or actual file ID
-            if len(drive_url) >= 25 and not drive_url.startswith("http"):
-                drive_id = drive_url
-            else:
-                print(f"Error: Could not extract Google Drive file ID for player {name}.")
-                # If we have old data, preserve it in the compilation
-                if name in old_players_data:
-                    new_players_list.append(old_players_data[name])
+        print(f"\n=========================================")
+        print(f"=== Processing Player: {name} ===")
+        print(f"=========================================")
+
+        parsed_games = []
+        
+        for g_idx, g_conf in enumerate(games_config):
+            game_name = g_conf.get("game_name", f"Game {g_idx + 1}")
+            drive_url = g_conf.get("drive_url")
+
+            if not drive_url:
+                print(f"Skipping game {game_name} due to missing drive_url.")
                 continue
 
-        sav_path = os.path.join(CACHE_DIR, f"{name}.sav")
-        json_path = os.path.join(CACHE_DIR, f"{name}.json")
-        
-        # Download savefile
-        success = download_from_drive(drive_id, sav_path)
-        if not success:
-            print(f"Warning: Download failed for player {name}. Using cached data if available.")
-            if os.path.exists(json_path):
-                with open(json_path, 'r') as f:
-                    new_players_list.append(json.load(f))
-            elif name in old_players_data:
-                new_players_list.append(old_players_data[name])
-            continue
+            print(f"\n--- Sub-game: {game_name} ---")
+            drive_id = extract_drive_id(drive_url)
+            if not drive_id:
+                if len(drive_url) >= 25 and not drive_url.startswith("http"):
+                    drive_id = drive_url
+                else:
+                    print(f"Error: Could not extract Google Drive file ID for game {game_name}.")
+                    continue
 
-        # Hash check
-        new_hash = get_sha256(sav_path)
-        old_hash = hash_db.get(name)
+            game_safe = re.sub(r'[^a-zA-Z0-9]', '', game_name)
+            sav_path = os.path.join(CACHE_DIR, f"{name}_{game_safe}.sav")
+            json_path = os.path.join(CACHE_DIR, f"{name}_{game_safe}.json")
+            
+            # Download savefile
+            success = download_from_drive(drive_id, sav_path)
+            if not success:
+                print(f"Warning: Download failed for game {game_name}. Loading cache if available.")
+                if os.path.exists(json_path):
+                    with open(json_path, 'r') as f:
+                        parsed_json = json.load(f)
+                        parsed_games.append(parsed_json)
+                continue
 
-        parsed_json = None
-        
-        if old_hash == new_hash and os.path.exists(json_path):
-            print(f"Save file for {name} has NOT changed. Loading cached JSON.")
-            try:
-                with open(json_path, 'r') as f:
-                    parsed_json = json.load(f)
-            except Exception:
-                pass
+            # Hash check
+            hash_key = f"{name}_{game_safe}"
+            new_hash = get_sha256(sav_path)
+            old_hash = hash_db.get(hash_key)
 
-        if not parsed_json:
-            print(f"Save file for {name} has changed or no cache exists. Parsing...")
-            # Run parser
-            parser_success = run_parser(sav_path, json_path)
-            if parser_success and os.path.exists(json_path):
+            parsed_json = None
+            
+            if old_hash == new_hash and os.path.exists(json_path):
+                print(f"Save file for {name} ({game_name}) has NOT changed. Loading cached JSON.")
                 try:
                     with open(json_path, 'r') as f:
                         parsed_json = json.load(f)
-                    # Update hash database
-                    hash_db[name] = new_hash
-                except Exception as e:
-                    print(f"Error loading parsed JSON for {name}: {e}")
+                except Exception:
+                    pass
+
+            if not parsed_json:
+                print(f"Save file for {name} ({game_name}) has changed or no cache exists. Parsing...")
+                parser_success = run_parser(sav_path, json_path)
+                if parser_success and os.path.exists(json_path):
+                    try:
+                        with open(json_path, 'r') as f:
+                            parsed_json = json.load(f)
+                        hash_db[hash_key] = new_hash
+                    except Exception as e:
+                        print(f"Error loading parsed JSON: {e}")
+                
+            if not parsed_json:
+                print(f"Error: Could not obtain parsed JSON. Using old cache if available.")
+                if os.path.exists(json_path):
+                    with open(json_path, 'r') as f:
+                        parsed_json = json.load(f)
+                else:
+                    continue
+
+            # Normalize game details
+            parsed_json["game_name"] = game_name
+            parsed_json["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # Generate delta activities
+            old_p_state = {}
+            if os.path.exists(json_path + ".prev"):
+                try:
+                    with open(json_path + ".prev", 'r') as f:
+                        old_p_state = json.load(f)
+                except Exception:
+                    pass
+                    
+            if old_p_state:
+                new_activities = generate_activities(name, game_name, old_p_state, parsed_json)
+                if new_activities:
+                    print(f"Generated {len(new_activities)} new activities in {game_name}.")
+                    activity_feed = new_activities + activity_feed
             
-        if not parsed_json:
-            print(f"Error: Could not obtain parsed JSON for {name}. Using old state if available.")
-            if name in old_players_data:
-                new_players_list.append(old_players_data[name])
-            continue
-
-        # Force override configured game name if custom in config
-        if configured_game and configured_game != "Unknown":
-            parsed_json["game"] = configured_game
-
-        # Add player name parameter
-        parsed_json["name"] = name
-        parsed_json["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Generate activities by comparing with old player state
-        old_p_state = old_players_data.get(name, {})
-        if not old_p_state and os.path.exists(json_path + ".prev"):
+            # Save prev
             try:
-                with open(json_path + ".prev", 'r') as f:
-                    old_p_state = json.load(f)
+                with open(json_path + ".prev", 'w') as f:
+                    json.dump(parsed_json, f, indent=2)
             except Exception:
                 pass
-                
-        if old_p_state:
-            new_activities = generate_activities(name, old_p_state, parsed_json)
-            if new_activities:
-                print(f"Generated {len(new_activities)} new activities for {name}.")
-                activity_feed = new_activities + activity_feed
-        
-        # Save current state as prev for future runs
-        try:
-            with open(json_path + ".prev", 'w') as f:
-                json.dump(parsed_json, f, indent=2)
-        except Exception:
-            pass
 
-        new_players_list.append(parsed_json)
+            parsed_games.append(parsed_json)
 
-    # 2. Global Leaderboard Rankings
-    # Rank by: Badges (descending), Pokedex Caught (descending), Playtime (descending)
-    def sort_key(p):
-        badges = p.get("badges_count", 0)
-        caught = p.get("pokedex_caught", 0)
-        playtime = parse_playtime_to_seconds(p.get("playtime", "00:00:00"))
+        if parsed_games:
+            new_players_list.append({
+                "name": name,
+                "games": parsed_games
+            })
+
+    # 2. Global Leaderboard Rankings (ranks individual runs)
+    runs = []
+    for p in new_players_list:
+        for g in p.get("games", []):
+            runs.append({
+                "player_name": p.get("name"),
+                "game_name": g.get("game_name"),
+                "badges_count": g.get("badges_count", 0),
+                "pokedex_caught": g.get("pokedex_caught", 0),
+                "playtime": g.get("playtime", "00:00:00"),
+                "location": g.get("location", "Unknown")
+            })
+
+    def sort_key(r):
+        badges = r.get("badges_count", 0)
+        caught = r.get("pokedex_caught", 0)
+        playtime = parse_playtime_to_seconds(r.get("playtime", "00:00:00"))
         return (badges, caught, playtime)
 
     leaderboard = []
-    ranked_players = sorted(new_players_list, key=sort_key, reverse=True)
-    for idx, p in enumerate(ranked_players):
+    ranked_runs = sorted(runs, key=sort_key, reverse=True)
+    for idx, r in enumerate(ranked_runs):
         leaderboard.append({
             "rank": idx + 1,
-            "name": p.get("name"),
-            "game": p.get("game"),
-            "badges": p.get("badges_count", 0),
-            "pokedex_caught": p.get("pokedex_caught", 0),
-            "playtime": p.get("playtime", "00:00:00"),
-            "location": p.get("location", "Unknown")
+            "name": r.get("player_name"),
+            "game": r.get("game_name"),
+            "badges": r.get("badges_count", 0),
+            "pokedex_caught": r.get("pokedex_caught", 0),
+            "playtime": r.get("playtime", "00:00:00"),
+            "location": r.get("location", "Unknown")
         })
 
     # Save hash database
