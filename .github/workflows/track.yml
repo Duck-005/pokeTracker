@@ -1,15 +1,13 @@
 name: Pokémon Progress Tracker Pipeline
 
 on:
+  # Run every hour at minute 17
   schedule:
-    # Run every 10 minutes
-    - cron: '*/60 * * * *'
-  push:
-    branches:
-      - main
+    - cron: '17 * * * *'
+
+  # Manual trigger from GitHub UI
   workflow_dispatch:
 
-# Permissions required for committing changes and deploying to GitHub Pages
 permissions:
   contents: write
   pages: write
@@ -22,11 +20,12 @@ concurrency:
 jobs:
   track-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch all history so we can read and write commits
+          fetch-depth: 0
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -36,7 +35,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-type: '3.x'
+          python-version: '3.x'
 
       - name: Install System Dependencies
         run: |
@@ -50,33 +49,36 @@ jobs:
 
       - name: Run Savefile Tracker Orchestrator
         run: |
-          # Compile the PKHeX.Core dependency and run the update orchestrator
           python scripts/update.py
 
-      - name: Commit and Push Updated Data Database
+      - name: Commit Updated Data
+        id: commit_data
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # Stage change databases
+
           git add dashboard/data.json cache/hashes.json
-          
-          # Only commit and push if data.json actually changed
+
           if git diff --cached --quiet; then
-            echo "No changes in savefile data. Skipping commit."
+            echo "No savefile changes detected."
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "chore: auto-update players save progress [skip ci]"
+            git commit -m "chore: auto-update Pokémon progress data"
             git push origin main
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
+        if: steps.commit_data.outputs.changed == 'true'
         uses: actions/configure-pages@v4
 
       - name: Upload Pages Artifact
+        if: steps.commit_data.outputs.changed == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dashboard'
 
       - name: Deploy to GitHub Pages
+        if: steps.commit_data.outputs.changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
