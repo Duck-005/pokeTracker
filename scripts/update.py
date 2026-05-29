@@ -87,75 +87,6 @@ def parse_playtime_to_seconds(playtime_str):
         pass
     return 0
 
-def generate_activities(player_name, game_name, old_data, new_data):
-    activities = []
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # 1. Badge changes
-    old_badges = set(old_data.get("obtained_badges", []))
-    new_badges = set(new_data.get("obtained_badges", []))
-    added_badges = new_badges - old_badges
-    for badge in added_badges:
-        activities.append({
-            "player": player_name,
-            "text": f"{player_name} earned the {badge} Badge in {game_name}!",
-            "type": "badge",
-            "timestamp": timestamp
-        })
-
-    # 2. Location changes
-    old_loc = old_data.get("location", "")
-    new_loc = new_data.get("location", "")
-    if old_loc and new_loc and old_loc != new_loc:
-        activities.append({
-            "player": player_name,
-            "text": f"{player_name} entered {new_loc} in {game_name}.",
-            "type": "location",
-            "timestamp": timestamp
-        })
-
-    # 3. Party Pokémon changes (level up & catches)
-    old_party = {p.get("nickname") or p.get("species"): p for p in old_data.get("party", []) if p}
-    new_party = {p.get("nickname") or p.get("species"): p for p in new_data.get("party", []) if p}
-
-    for key, new_pk in new_party.items():
-        species_name = new_pk.get("species", "Pokémon")
-        level = new_pk.get("level", 1)
-        
-        if key in old_party:
-            old_pk = old_party[key]
-            old_level = old_pk.get("level", 1)
-            if level > old_level:
-                activities.append({
-                    "player": player_name,
-                    "text": f"{player_name}'s {new_pk.get('nickname') or species_name} leveled up to Lv. {level} in {game_name}!",
-                    "type": "levelup",
-                    "timestamp": timestamp
-                })
-        else:
-            activities.append({
-                "player": player_name,
-                "text": f"{player_name} caught {species_name} Lv. {level} in {game_name}!",
-                "type": "catch",
-                "timestamp": timestamp
-            })
-
-    # 4. Beat Champion status
-    old_badges_count = old_data.get("badges_count", 0)
-    new_badges_count = new_data.get("badges_count", 0)
-    
-    is_championship_loc = "Indigo Plateau" in new_loc or "Ever Grande" in new_loc or "Hall of Fame" in new_loc
-    was_championship_loc = "Indigo Plateau" in old_loc or "Ever Grande" in old_loc or "Hall of Fame" in old_loc
-    
-    if is_championship_loc and not was_championship_loc and new_badges_count == 8:
-        activities.append({
-            "player": player_name,
-            "text": f"{player_name} defeated the Elite Four and became the Champion in {game_name}!",
-            "type": "champion",
-            "timestamp": timestamp
-        })
-
-    return activities
 
 def main():
     ensure_dirs()
@@ -181,11 +112,7 @@ def main():
         except Exception as e:
             print(f"Warning: Could not parse existing data.json: {e}")
 
-    activity_feed = old_data_json.get("activity_feed", [])
-    
-    # Filter out activities belonging to players not currently configured
-    current_player_names = {p.get("name") for p in players if p.get("name")}
-    activity_feed = [act for act in activity_feed if act.get("player") in current_player_names]
+    activity_feed = []
     
     # Hash database
     hash_db_path = os.path.join(CACHE_DIR, "hashes.json")
@@ -294,27 +221,7 @@ def main():
             parsed_json["game_name"] = game_name
             parsed_json["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # Generate delta activities
-            old_p_state = {}
-            if os.path.exists(json_path + ".prev"):
-                try:
-                    with open(json_path + ".prev", 'r') as f:
-                        old_p_state = json.load(f)
-                except Exception:
-                    pass
-                    
-            if old_p_state:
-                new_activities = generate_activities(name, game_name, old_p_state, parsed_json)
-                if new_activities:
-                    print(f"Generated {len(new_activities)} new activities in {game_name}.")
-                    activity_feed = new_activities + activity_feed
-            
-            # Save prev
-            try:
-                with open(json_path + ".prev", 'w') as f:
-                    json.dump(parsed_json, f, indent=2)
-            except Exception:
-                pass
+
 
             parsed_games.append(parsed_json)
 
@@ -331,6 +238,7 @@ def main():
             runs.append({
                 "player_name": p.get("name"),
                 "game_name": g.get("game_name"),
+                "trainer_name": g.get("trainer_name", "Unknown"),
                 "badges_count": g.get("badges_count", 0),
                 "pokedex_caught": g.get("pokedex_caught", 0),
                 "playtime": g.get("playtime", "00:00:00"),
@@ -350,6 +258,7 @@ def main():
             "rank": idx + 1,
             "name": r.get("player_name"),
             "game": r.get("game_name"),
+            "trainer_name": r.get("trainer_name", "Unknown"),
             "badges": r.get("badges_count", 0),
             "pokedex_caught": r.get("pokedex_caught", 0),
             "playtime": r.get("playtime", "00:00:00"),

@@ -73,9 +73,6 @@ function renderDashboard() {
     // 2. Render Leaderboard
     renderLeaderboard();
 
-    // 3. Render Activity Feed
-    renderActivityFeed();
-
     // 4. Render Player Cards
     renderPlayerCards();
 }
@@ -104,7 +101,12 @@ function renderLeaderboard() {
 
         tr.innerHTML = `
             <td><span class="leaderboard-rank-pill">${row.rank}</span></td>
-            <td><strong>${row.name}</strong><br><span class="muted" style="font-size:0.75rem">${row.game}</span></td>
+            <td>
+                <strong>${row.name}</strong> 
+                <span class="muted" style="font-size:0.75rem; font-weight: 500;">(OT: ${row.trainer_name})</span>
+                <br>
+                <span class="muted" style="font-size:0.75rem">${row.game}</span>
+            </td>
             <td><strong>${row.badges} / 8</strong></td>
             <td><strong>${row.pokedex_caught}</strong></td>
             <td>${playtimeDisplay}</td>
@@ -113,38 +115,6 @@ function renderLeaderboard() {
     });
 }
 
-// Render Live Activity Feed Timeline
-function renderActivityFeed() {
-    const container = document.getElementById("activity-timeline");
-    container.innerHTML = "";
-
-    const feed = trackerData.activity_feed || [];
-    if (feed.length === 0) {
-        container.innerHTML = `<div class="placeholder-activity">No recent timeline logs found. Let's start playing!</div>`;
-        return;
-    }
-
-    feed.forEach(item => {
-        const div = document.createElement("div");
-        div.className = `activity-item type-${item.type || 'generic'}`;
-        
-        // Format time display
-        let timeStr = item.timestamp;
-        try {
-            const date = new Date(item.timestamp);
-            if (!isNaN(date.getTime())) {
-                timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " " + date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-            }
-        } catch {}
-
-        div.innerHTML = `
-            <span class="activity-dot"></span>
-            <p class="activity-text">${item.text}</p>
-            <span class="activity-time">${timeStr}</span>
-        `;
-        container.appendChild(div);
-    });
-}
 
 // Render Player Cards
 function renderPlayerCards() {
@@ -206,7 +176,10 @@ function renderPlayerCards() {
         card.innerHTML = `
             <div class="player-card-header">
                 <div class="player-card-title">
-                    <h3>${name}</h3>
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                        ${name}
+                        <span class="ot-badge" style="font-size: 0.75rem; font-weight: 500; background: rgba(15,23,42,0.06); padding: 0.15rem 0.5rem; border-radius: var(--radius-sm); color: var(--text-muted);">OT: ${activeGame.trainer_name}</span>
+                    </h3>
                     <span class="game-badge game-${activeGame.game_name.toLowerCase().replace(/[^a-z]/g, '')}">${activeGame.game_name}</span>
                 </div>
                 <div class="header-quick-info">
@@ -290,6 +263,15 @@ function renderPlayerCards() {
                 <!-- Panel 3: Stats -->
                 <div class="tab-panel ${currentTab === 'stats' ? 'active' : ''}" data-panel="stats">
                     <div class="stats-tab-layout">
+                        <div class="stats-card-sub">
+                            <div class="stats-icon-bg">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="stats-card-data">
+                                <span class="stats-card-val">${activeGame.trainer_name}</span>
+                                <span class="stats-card-lbl">Trainer OT Name</span>
+                            </div>
+                        </div>
                         <div class="stats-card-sub">
                             <div class="stats-icon-bg">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>

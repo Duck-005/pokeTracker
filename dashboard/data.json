@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-29 23:03:11",
+  "last_updated": "2026-05-29 23:10:56",
   "players": [
     {
       "name": "Marvin",
@@ -68,7 +68,7 @@
             }
           ],
           "game_name": "Radical Red",
-          "last_updated": "2026-05-29 23:02:47"
+          "last_updated": "2026-05-29 23:10:52"
         },
         {
           "trainer_name": "Gold",
@@ -368,7 +368,7 @@
             }
           ],
           "game_name": "Emerald",
-          "last_updated": "2026-05-29 23:02:58"
+          "last_updated": "2026-05-29 23:10:54"
         },
         {
           "trainer_name": "TAYLOR",
@@ -669,7 +669,7 @@
             }
           ],
           "game_name": "Fire red",
-          "last_updated": "2026-05-29 23:03:11"
+          "last_updated": "2026-05-29 23:10:56"
         }
       ]
     }
@@ -679,6 +679,7 @@
       "rank": 1,
       "name": "Marvin",
       "game": "Emerald",
+      "trainer_name": "Gold",
       "badges": 8,
       "pokedex_caught": 384,
       "playtime": "165:45:41",
@@ -688,6 +689,7 @@
       "rank": 2,
       "name": "Marvin",
       "game": "Fire red",
+      "trainer_name": "TAYLOR",
       "badges": 8,
       "pokedex_caught": 169,
       "playtime": "68:33:13",
@@ -697,78 +699,12 @@
       "rank": 3,
       "name": "Marvin",
       "game": "Radical Red",
+      "trainer_name": "marvin",
       "badges": 0,
       "pokedex_caught": 0,
       "playtime": "00:17:38",
       "location": "Pallet Town (Interior)"
     }
   ],
-  "activity_feed": [
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Balance Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Rain Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Stone Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Mind Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Knuckle Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Feather Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Dynamo Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Heat Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:54:46"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin earned the Dynamo Badge in Emerald!",
-      "type": "badge",
-      "timestamp": "2026-05-29 22:34:27"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin caught Pikachu Lv. 14 in Emerald!",
-      "type": "catch",
-      "timestamp": "2026-05-29 22:34:27"
-    },
-    {
-      "player": "Marvin",
-      "text": "Marvin entered Mauville City in Emerald.",
-      "type": "location",
-      "timestamp": "2026-05-29 22:34:27"
-    }
-  ]
+  "activity_feed": []
 }
