@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-31 11:09:32",
+  "last_updated": "2026-05-31 12:50:33",
   "players": [
     {
       "name": "Marvin",
@@ -111,7 +111,7 @@
             }
           ],
           "game_name": "Radical Red",
-          "last_updated": "2026-05-31 11:09:28"
+          "last_updated": "2026-05-31 12:50:30"
         },
         {
           "trainer_name": "Gold",
@@ -411,7 +411,7 @@
             }
           ],
           "game_name": "Emerald",
-          "last_updated": "2026-05-31 11:09:32"
+          "last_updated": "2026-05-31 12:50:33"
         }
       ]
     }
